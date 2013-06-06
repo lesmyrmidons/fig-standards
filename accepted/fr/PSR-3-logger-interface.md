@@ -17,7 +17,7 @@ Les utilisateurs d'objet `loggers` sont mentionnées comme `utilisateur`.
 
 ### 1.1 Basique
 
-- L'interface `LoggerInterface` expose huit méthodes pour écrire les logs pour les huit niveaux de la [RFC 5424][] (debug, info, notice, warning, error, critical, alert, emergency).
+- L'interface `LoggerInterface` expose huit méthodes pour écrire les journaux avec les huit niveaux de la [RFC 5424][] (debug, info, notice, warning, error, critical, alert, emergency).
 
 - Une neuvième méthode, `log`, accepte un niveau de journalisation en tant que premier argument.
   L'appel de cette méthode avec l'une des constantes de niveau de journalisation DOIT avoir le même résultat que l'appel de la méthode d'un niveau spécifique. L'appel de cette méthode avec un niveau non défini par cette spécification DOIT lancer un `Psr\Log\InvalidArgumentException` si l'implémentation ne reconnaît pas le niveau. Les utilisateurs NE DEVRAIENT PAS utiliser de niveau personnalisé sans savoir avec certitude si l'implémentation le supporte.
@@ -40,11 +40,11 @@ Les utilisateurs d'objet `loggers` sont mentionnées comme `utilisateur`.
   délimiteurs et le nom d'espace réservé.
 
   Les noms des espace réservé DEVRAIT être seulement composé de caractères `A-Z`, `a-z`,
-  `0-9`, underscore `_`, et de point `.`. L'utilisation d'autres caractères est réservé
+  `0-9`, sous-tiret `_`, et de point `.`. L'utilisation d'autres caractères est réservé
   pour des modifications futures de la spécification des espaces réservés.
 
   Les implémenteurs PEUVENT utiliser des espaces réservés pour mettre en œuvre diverses stratégies d'échappement
-  et de tradure le journal pour l'affichage. Les utilisateurs NE DEVRAIT PAS pre-échapper les valeurs des espaces réservés,
+  et de traduire le journal pour l'affichage. Les utilisateurs NE DEVRAIT PAS pre-échapper les valeurs des espaces réservés,
   car ils ne peuvent pas savoir dans quel contexte les données seront affichées.
 
   Ce qui suit est un exemple d'implémentation d'interpolation d'espace réservé
@@ -86,7 +86,7 @@ Les utilisateurs d'objet `loggers` sont mentionnées comme `utilisateur`.
 
 - Si un object `Exception` est passé dans les données contextuelles, Il DOIT être dans la
   clé `'exception'`. Comme toutes les exceptions ont une interface communes ce qui permet
-  aux implementeurs d'extraire la trace de la pile de l'exception quand le backend du journal
+  aux implementeurs d'extraire la trace de la pile de l'exception quand l'interpréteur du journal
   le supporte. Les implémenteurs DOIVENT vérifier que la clé `'exception'` est bien une
   `Exception` avant de l'utiliser comme tel, car elle peut contenir n'importe quoi.
 
@@ -114,7 +114,7 @@ Les utilisateurs d'objet `loggers` sont mentionnées comme `utilisateur`.
 ---------
 
 Les interfaces et les classes décrites de même que les classes d'exception pertinentes
-et une suite de tests pour vérifier votre mise en œuvre fournies par le paquet
+et une suite de tests pour vérifier votre mise en œuvre est fournies par le paquet
 [psr/log](https://packagist.org/packages/psr/log).
 
 3. `Psr\Log\LoggerInterface`
