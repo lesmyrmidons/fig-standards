@@ -3,52 +3,52 @@ Interface Logger
 
 Ce document décrit une interface commune pour les bibliothèques de journalisation.
 
-L'objectif principal est de permettre aux bibliothèques d'obtenir un objet `Psr\Log\LoggerInterface` et d'y écrire des logs d'une façon simple et universel. Les Frameworks et CMS qui ont des besoins personnalisés peuvent étendre l'interface dans leur propre but, mais DOIVENT rester compatible avec le présent document. Cela garantit que les bibliothèques tierces utilisées par une application peuvent écrure dans les journaux centralisés des applications.
+L'objectif principal est de permettre aux bibliothèques d'obtenir un objet `Psr\Log\LoggerInterface` et d'y écrire des logs d'une façon simple et universel. Les Frameworks et CMS qui ont des besoins personnalisés peuvent étendre l'interface dans leur propre but, mais DOIVENT rester compatible avec le présent document. Cela garantit que les bibliothèques tierces utilisées par une application peuvent écrire dans les journaux centralisés des applications.
 
 Les mots clés "DOIT", "NE DOIT PAS", "OBLIGATOIRE", "DEVRA", "NE DEVRA PAS", "DEVRAIT", "NE DEVRAIT PAS", "RECOMMENDÉ", "PEUT" et "OPTIONNELLE" dans ce document doivent être interprétés comme décrit dans [RFC 2119][].
 
-Le mot `implementor` dans ce document est à interpréter comme quelqu'un qui implémente le `LoggerInterface` dans une bibliothèque relative à de la journalisation ou dans un framework.
+Le mot `implémenteurs` dans ce document est à interpréter comme quelqu'un qui implémente le `LoggerInterface` dans une bibliothèque relative à de la journalisation ou dans un framework.
 Les utilisateurs d'objet `loggers` sont mentionnées comme `utilisateur`.
 
 [RFC 2119]: http://tools.ietf.org/html/rfc2119
 
 1. Spécification
------------------
+----------------
 
 ### 1.1 Basique
 
-- L'interface `LoggerInterface` expose huit méthodes pour écrire les logs pour les huit [RFC 5424][] levels (debug, info, notice, warning, error, critical, alert, emergency).
+- L'interface `LoggerInterface` expose huit méthodes pour écrire les logs pour les huit niveaux de la [RFC 5424][] (debug, info, notice, warning, error, critical, alert, emergency).
 
-- Un neuvième méthode, `log`, accepte un niveau de journalisation en tant que premier argument.
-  L'appel de cette méthode avec l'une des constantes du niveau de journalisation DOIT avoir le même résultat que l'appel de la méthode de niveau spécifique. L'appel de cette méthode avec un niveau non défini par cette spécification DOIT lancer un `Psr\Log\InvalidArgumentException` si l'implémentation ne reconnaît pas le niveau. Les utilisateurs NE DEVRAIENT PAS utiliser de niveau personnalisé sans savoir avec certitude si l'implémentation le supporte.
+- Une neuvième méthode, `log`, accepte un niveau de journalisation en tant que premier argument.
+  L'appel de cette méthode avec l'une des constantes de niveau de journalisation DOIT avoir le même résultat que l'appel de la méthode d'un niveau spécifique. L'appel de cette méthode avec un niveau non défini par cette spécification DOIT lancer un `Psr\Log\InvalidArgumentException` si l'implémentation ne reconnaît pas le niveau. Les utilisateurs NE DEVRAIENT PAS utiliser de niveau personnalisé sans savoir avec certitude si l'implémentation le supporte.
 
 [RFC 5424]: http://tools.ietf.org/html/rfc5424
 
 ### 1.2 Message
 
-- Every method accepts a string as the message, or an object with a
-  `__toString()` method. Implementors MAY have special handling for the passed
-  objects. If that is not the case, implementors MUST cast it to a string.
+- Chaque méthode accepte une chaîne comme message, ou un objet avec une méthode
+  `__toString()`. Les implémenteurs PEUVENT avoir un traitement spécial pour les objets passés.
+  Si ce n'est pas le cas, les implémenteurs DOIVENT les convertir en chaîne de caractères.
 
-- The message MAY contain placeholders which implementors MAY replace with
-  values from the context array.
+- Le message peut contenir des espaces réservés dont les implémenteurs PEUVENT les remplacer par
+  les valeurs provenant du tableau contextuel.
 
-  Placeholder names MUST correspond to keys in the context array.
+  Les noms des espace réservé DOIVENT correspondre aux clés du tableau contextuel.
 
-  Placeholder names MUST be delimited with a single opening brace `{` and
-  a single closing brace `}`. There MUST NOT be any whitespace between the
-  delimiters and the placeholder name.
+  Les noms des espace réservé DOIVENT être délimité avec une seule accolade ouvrante `{` et
+  une seule accolade fermante `}`. Il NE DOIT PAS y avoir d'espace entre les
+  délimiteurs et le nom d'espace réservé.
 
-  Placeholder names SHOULD be composed only of the characters `A-Z`, `a-z`,
-  `0-9`, underscore `_`, and period `.`. The use of other characters is
-  reserved for future modifications of the placeholders specification.
+  Les noms des espace réservé DEVRAIT être seulement composé de caractères `A-Z`, `a-z`,
+  `0-9`, underscore `_`, et de point `.`. L'utilisation d'autres caractères est réservé
+  pour des modifications futures de la spécification des espaces réservés.
 
-  Implementors MAY use placeholders to implement various escaping strategies
-  and translate logs for display. Users SHOULD NOT pre-escape placeholder
-  values since they can not know in which context the data will be displayed.
+  Les implémenteurs PEUVENT utiliser des espaces réservés pour mettre en œuvre diverses stratégies d'échappement
+  et de tradure le journal pour l'affichage. Les utilisateurs NE DEVRAIT PAS pre-échapper les valeurs des espaces réservés,
+  car ils ne peuvent pas savoir dans quel contexte les données seront affichées.
 
-  The following is an example implementation of placeholder interpolation
-  provided for reference purposes only:
+  Ce qui suit est un exemple d'implémentation d'interpolation d'espace réservé
+  fournis seulement à titre de référence:
 
   ```php
   /**
@@ -78,30 +78,29 @@ Les utilisateurs d'objet `loggers` sont mentionnées comme `utilisateur`.
 
 ### 1.3 Context
 
-- Every method accepts an array as context data. This is meant to hold any
-  extraneous information that does not fit well in a string. The array can
-  contain anything. Implementors MUST ensure they treat context data with
-  as much lenience as possible. A given value in the context MUST NOT throw
-  an exception nor raise any php error, warning or notice.
+- Chaque méthode accepte un tableau comme données contextuelles. Ceci est destiné à tenir aucune
+  information extérieure qui ne rentre pas bien dans une chaîne. Le tableau peut
+  contenir n'importe quoi. Les implémenteurs doivent s'assurer qu'ils traitent les données de contexte avec
+  autant d'indulgence que possible. Une valeur donnée dans le contexte NE DOIT PAS lancé
+  d'exception ni soulever toute erreur php, warning ni notice.
 
-- If an `Exception` object is passed in the context data, it MUST be in the
-  `'exception'` key. Logging exceptions is a common pattern and this allows
-  implementors to extract a stack trace from the exception when the log
-  backend supports it. Implementors MUST still verify that the `'exception'`
-  key is actually an `Exception` before using it as such, as it MAY contain
-  anything.
+- Si un object `Exception` est passé dans les données contextuelles, Il DOIT être dans la
+  clé `'exception'`. Comme toutes les exceptions ont une interface communes ce qui permet
+  aux implementeurs d'extraire la trace de la pile de l'exception quand le backend du journal
+  le supporte. Les implémenteurs DOIVENT vérifier que la clé `'exception'` est bien une
+  `Exception` avant de l'utiliser comme tel, car elle peut contenir n'importe quoi.
 
 ### 1.4 Classes d'aide et interfaces
 
 - La classe `Psr\Log\AbstractLogger` vous permet d'implémenter le `LoggerInterface`
   très facilement en l'étendant et en implémentant la méthode générique `log`.
-  Les huit autres méthodes sont la transmission du message et du contexte à cette message.
+  Les huit autres méthodes transmettent le message et le contexte à cette méthode.
 
 - De même, l'utilisation du `Psr\Log\LoggerTrait` ne requiert que l'implémentation de la méthode
-  générique `log`. A noter que puisque que les traits ne peuvent pas implémenter d'interfaces, dans ce cas vous pouvez `implémenter le LoggerInterface`.
+  générique `log`. A noter que puisque que les traits ne peuvent pas implémenter d'interfaces, dans ce cas vous pouvez implémenter le `LoggerInterface`.
 
 - Le `Psr\Log\NullLogger` est fourni avec l'interface. Il PEUT être utilisé par les utilisateurs
-  de l'interface pour fournir une solution "trou noir" implémentée si aucun logger ne lui est fournit. Cependant les journalisations conditionnelles PEUT être une meilleure approche si la création de données de contexte est couteuse.
+  de l'interface pour fournir une solution "trou noir" implémentée si aucun logger ne lui est fournit. Cependant les journalisations conditionnelles PEUT être une meilleure approche si la création de données de contexte est coûteuse.
 
 - Le `Psr\Log\LoggerAwareInterface` ne contient que la méthode `setLogger(LoggerInterface $logger)`
   et peut être utilisé par les frameworks pour auto-connecter une instance arbitraires avec le logger.
@@ -109,14 +108,14 @@ Les utilisateurs d'objet `loggers` sont mentionnées comme `utilisateur`.
 - Le trait `Psr\Log\LoggerAwareTrait` peut être utilisé pour implémenter facilement l'interface
   équivalente dans n'importe quelle classe. Il vous donne accès à `$this->logger`.
 
-- La classe `Psr\Log\LogLevel` contient des constantes pour les huit niveaux de journal.
+- La classe `Psr\Log\LogLevel` contient des constantes pour les huit niveaux de journalisation.
 
-2. Paquets
-----------
+2. Paquet
+---------
 
-Les interfaces et les classes décrites ainsi que les classes d'exception pertinents
-et une suite de tests pour vérifier votre mise en œuvre fournies par
-[psr/log](https://packagist.org/packages/psr/log) package.
+Les interfaces et les classes décrites de même que les classes d'exception pertinentes
+et une suite de tests pour vérifier votre mise en œuvre fournies par le paquet
+[psr/log](https://packagist.org/packages/psr/log).
 
 3. `Psr\Log\LoggerInterface`
 ----------------------------
@@ -129,13 +128,13 @@ namespace Psr\Log;
 /**
  * Décrit une instance logger
  *
- * Le message DOIT être une chaîne ou un objet qui implémente __ toString ().
+ * Le message DOIT être une chaîne ou un objet qui implémente __toString().
  *
- * Le message PEUT contenir des marqueurs à la forme: {foo} où foo
- * sera remplacé par les données de contexte à clé "foo".
+ * Le message PEUT contenir des marqueurs sous forme: {foo} où foo
+ * sera remplacé par les données de contexte à la clé "foo".
  *
  * Le tableau de contexte peut contenir des données arbitraires, la seule hypothèse qui peut être
- * faite par des réalisateurs, c'est que si une instance de Exception est donné
+ * faite par des implémenteurs, c'est que si une instance de Exception est donné
  * pour produire une trace de la pile, il DOIT être dans une clé nommée "exception".
  *
  * Voir https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-3-logger-interface.md
