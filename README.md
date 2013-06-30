@@ -58,7 +58,7 @@ Voting Members
 
 1. William Durand: Propel, Propel 2
 
-1. Andrew Eddie: Joomla
+1. Don Gilbert: Joomla
 
 1. Cal Evans: the community at large
 
@@ -73,6 +73,8 @@ Voting Members
 1. Larry Masters: CakePHP, CakePHP 2
 
 1. John Mertic: SugarCRM
+
+1. Taylor Otwell: Laravel
 
 1. Ryan Parman: Amazon Web Services SDK
 
