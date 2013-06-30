@@ -30,7 +30,7 @@ To become a voting member, you must send an email to the [mailing list][].
 
 - The body should include your name, the name of (and link to) the project you
   represent, and other details you feel are relevant.
-  
+
 Current members will vote on your request.
 
 Do not combine separate membership requests in a single thread; one request
@@ -45,10 +45,12 @@ Voting Members
 1. Nils Adermann: phpBB
 
 1. Brett Bieber: PEAR, PEAR2
-    
+
 1. Guilherme Blanco: Doctrine, Doctrine2, et al.
 
 1. Jordi Boggiano: Composer, Packagist
+
+1. Pádraic Brady: Zend Framework
 
 1. Karma Dordrak: Zikula
 
@@ -78,18 +80,14 @@ Voting Members
 
 1. Fabien Potencier: Symfony, Symfony2
 
-1. Andre Romcke: eZ Publish
+1. Mike van Riel: phpDocumentor
 
-1. Paul Scott: Chisimba, C4
+1. Andre Romcke: eZ Publish
 
 1. Phil Sturgeon: PyroCMS
 
 1. Lukas Smith: Jackalope
 
 1. Kris Wallsmith: Assetic, Buzz
-
-1. Mike van Riel: phpDocumentor
-
-1. Pádraic Brady: Zend Framework
 
 1. David Zülke: Agavi
